@@ -65,28 +65,32 @@ const Statistics = (stats) => {
         )
     }
     return(
-        <div>
+        <table>
             <Statistic teksti='hyvä' arvo={currentState.hyva} />            
             <Statistic teksti='neutraali' arvo={currentState.neutraali} />
             <Statistic teksti='huono' arvo={currentState.huono} />        
             <Statistic teksti='keskiarvo' arvo={Keskiarvo(currentState)} />
             <Statistic teksti='positiivisia' arvo={Positiivisa(currentState)} /> 
-        </div>
+        </table>
     )
 }
 
 const Statistic = ({teksti, arvo}) => {
     if (teksti === 'positiivisia') {
         return (
-            <div>
-                <p> {teksti} {arvo} % </p>
-            </div>
+                <tr>
+                <td> {teksti} </td>
+                <td> {arvo} % </td>
+                </tr>
+            
         )
     }
     return (
-        <div>
-            <p> {teksti} {arvo} </p>
-        </div>
+            <tr>
+                <td> {teksti} </td>
+                <td> {arvo} </td>
+            </tr>
+        
     )
 }
 
