@@ -3,19 +3,18 @@ import ReactDOM from 'react-dom';
 
 
 
-const Positiivisa = ({hyva, neutraali, huono, kaikki}) => {
+const Positiivisa = ({hyva, neutraali, huono}) => {
     if(hyva + neutraali + huono === 0) {
         return 0
     }
     return 100 * (hyva/ (hyva + neutraali + huono))
 }
 
-const Keskiarvo = ({hyva, neutraali, huono, kaikki}) => {
+const Keskiarvo = ({hyva, neutraali, huono}) => {
     if(hyva + neutraali + huono === 0) {
         return 0
     }
-    const sum = kaikki.reduce((previous, current) => current += previous);
-    return sum / kaikki.length 
+    return (hyva - huono)
 }
 
 
@@ -30,39 +29,23 @@ class App extends React.Component {
         this.state = {
             hyva: 0,
             neutraali: 0,
-            huono: 0,
-            kaikki: [],
+            huono: 0
         }
     }
-        klikHyva = () => {
-            this.setState({
-                hyva: this.state.hyva +1,
-                kaikki: this.state.kaikki.concat(1),
-            })
-        }
 
-        klikNeutraali = () => {
-            this.setState({
-                neutraali: this.state.neutraali +1,
-                kaikki: this.state.kaikki.concat(0)
-            })
+    asetaArvoon = (name) => {
+        return () => {
+            this.setState({ [name]: this.state[name] +1})
         }
-
-        klikHuono = () => {
-            this.setState({
-                huono: this.state.huono +1,
-                kaikki: this.state.kaikki.concat(-1)
-            })
-        }
-
+    }
         render() {
             return (
                 <div>
                     <div>
                         <h1>anna palautetta</h1>
-                        <Button nimi='hyvä' aktion={this.klikHyva} />
-                        <Button nimi='neutraali' aktion={this.klikNeutraali} />
-                        <Button nimi='huono' aktion={this.klikHuono} />
+                        <Button nimi='hyvä' aktion={this.asetaArvoon('hyva')} />
+                        <Button nimi='neutraali' aktion={this.asetaArvoon('neutraali')} />
+                        <Button nimi='huono' aktion={this.asetaArvoon('huono')} />
                         <h1>statistiikka</h1>
                         <Statistics currentState={this.state} />
                         
