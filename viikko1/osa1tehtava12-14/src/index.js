@@ -29,11 +29,30 @@ class App extends React.Component {
                 <p>has {voteCount(this.state)} votes</p>
                 <button onClick={this.aanesta}>vote</button>
                 <button onClick={this.uusiAnecdootti}>next anecdote</button>
-
-
+                <h1>anecdote with most votes:</h1>
+                {this.props.anecdotes[MostVotes(this.state)]}
             </div>            
         )
     }
+}
+
+
+
+const MostVotes = (info) => {
+    const list = info.votes
+    var popularestmost = null
+    var count = 0
+    for(var i=0; i<5; i++) {
+        var throwaway = {
+            selected: i,
+            votes: list
+        }
+        if (voteCount(throwaway)>count) {
+            count = voteCount(throwaway)
+            popularestmost = i
+        }
+    }
+    return popularestmost
 }
 
 const voteCount = (info) => {
