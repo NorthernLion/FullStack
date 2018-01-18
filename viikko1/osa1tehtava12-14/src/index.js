@@ -5,7 +5,8 @@ class App extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            selected: 0
+            selected: 0,
+            votes: []
         }
     }
 
@@ -15,15 +16,39 @@ class App extends React.Component {
         })
     }
 
+    aanesta = () => {
+        this.setState({
+            votes: this.state.votes.concat(this.state.selected) 
+        })
+    }
+
     render() {
         return(
             <div>
                 {this.props.anecdotes[this.state.selected]}
-                <p></p>
+                <p>has {voteCount(this.state)} votes</p>
+                <button onClick={this.aanesta}>vote</button>
                 <button onClick={this.uusiAnecdootti}>next anecdote</button>
+
+
             </div>            
         )
     }
+}
+
+const voteCount = (info) => {
+    const number = info.selected
+    const list = info.votes
+    if (list.length===0) {
+        return 0
+    }
+    var count = 0
+    for(var i = 0; i < list.length; i++) {
+        if(list[i] === number) {
+            count++
+        }
+    }
+    return(count)
 }
 
 const anecdotes = [
