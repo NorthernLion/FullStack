@@ -63,6 +63,7 @@ class App extends React.Component {
                         <Button nimi='hyvä' aktion={this.klikHyva} />
                         <Button nimi='neutraali' aktion={this.klikNeutraali} />
                         <Button nimi='huono' aktion={this.klikHuono} />
+                        <h1>statistiikka</h1>
                         <Statistics currentState={this.state} />
                         
                     </div>
@@ -73,9 +74,15 @@ class App extends React.Component {
 
 const Statistics = (stats) => {
     const currentState = stats.currentState
+    if (currentState.hyva + currentState.neutraali + currentState.huono === 0) {
+        return (
+            <div>
+                <p>ei yhtään palautetta annettu</p>
+            </div>
+        )
+    }
     return(
         <div>
-            <h1>statistiikka</h1>
             <Statistic teksti='hyvä' arvo={currentState.hyva} />            
             <Statistic teksti='neutraali' arvo={currentState.neutraali} />
             <Statistic teksti='huono' arvo={currentState.huono} />        
