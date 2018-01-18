@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+
+
 const Positiivisa = ({hyva, neutraali, huono, kaikki}) => {
     if(hyva + neutraali + huono === 0) {
         return 0
@@ -15,6 +17,12 @@ const Keskiarvo = ({hyva, neutraali, huono, kaikki}) => {
     const sum = kaikki.reduce((previous, current) => current += previous);
     return sum / kaikki.length 
 }
+
+
+const Button = ({nimi, aktion}) => {
+    return (
+    <button onClick={aktion}>{nimi}</button>)
+} 
 
 class App extends React.Component {
     constructor(props) {
@@ -52,15 +60,10 @@ class App extends React.Component {
                 <div>
                     <div>
                         <h1>anna palautetta</h1>
-                        <button onClick={this.klikHyva}>hyvä</button>
-                        <button onClick={this.klikNeutraali}>neutraali</button>
-                        <button onClick={this.klikHuono}>huono</button>
-                        <h1>statistiikka</h1>
-                        <p> hyvä {this.state.hyva} </p>
-                        <p> neutraali {this.state.neutraali} </p>
-                        <p> huono {this.state.huono} </p>
-                        <p> keskiarvo {Keskiarvo(this.state)} </p>
-                        <p> positiivisia {Positiivisa(this.state)} % </p>
+                        <Button nimi='hyvä' aktion={this.klikHyva} />
+                        <Button nimi='neutraali' aktion={this.klikNeutraali} />
+                        <Button nimi='huono' aktion={this.klikHuono} />
+                        <Statistics currentState={this.state} />
                         
                     </div>
                 </div>    
@@ -68,6 +71,34 @@ class App extends React.Component {
         }
     }
 
+const Statistics = (stats) => {
+    const currentState = stats.currentState
+    return(
+        <div>
+            <h1>statistiikka</h1>
+            <Statistic teksti='hyvä' arvo={currentState.hyva} />            
+            <Statistic teksti='neutraali' arvo={currentState.neutraali} />
+            <Statistic teksti='huono' arvo={currentState.huono} />        
+            <Statistic teksti='keskiarvo' arvo={Keskiarvo(currentState)} />
+            <Statistic teksti='positiivisia' arvo={Positiivisa(currentState)} /> 
+        </div>
+    )
+}
+
+const Statistic = ({teksti, arvo}) => {
+    if (teksti === 'positiivisia') {
+        return (
+            <div>
+                <p> {teksti} {arvo} % </p>
+            </div>
+        )
+    }
+    return (
+        <div>
+            <p> {teksti} {arvo} </p>
+        </div>
+    )
+}
 
 ReactDOM.render(<App />, document.getElementById('root'));
 
