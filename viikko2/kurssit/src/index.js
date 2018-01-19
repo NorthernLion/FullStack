@@ -17,7 +17,7 @@ const Sisalto = (props) => {
   */
   return (
     <div>
-      {osat.map((osa, i) => <Osa key={i} osa={osa.nimi} tehtavat={osa.tehtavia} />)}
+      {osat.map((osa, i) => <Osa key={i} osa={osa.nimi} tehtavat={osa.tehtavia} />)}
     </div>
   )
 }
@@ -27,8 +27,8 @@ const Yhteensa = (props) => {
   const osat = props.osat
   return (
     <div>
-      <p> Yhteensä {osat.reduce((prev,next) => prev + next.tehtavia, 0)} tehtävää</p>
-    </div>  
+      <p> Yhteensä {osat.reduce((prev, next) => prev + next.tehtavia, 0)} tehtävää</p>
+    </div>
   )
 }
 
@@ -51,29 +51,57 @@ const Kurssi = ({ kurssi }) => {
   )
 }
 const App = () => {
-  const kurssi = {
-    nimi: 'Half Stack sovelluskehitys',
-    osat: [
-      {
-        nimi: 'Reactin perusteet',
-        tehtavia: 10
-      },
-      {
-        nimi: 'Tiedonvälitys propseilla',
-        tehtavia: 7
-      },
-      {
-        nimi: 'Komponenttien tila',
-        tehtavia: 14
-      }
-    ]
-  }
-
+  const kurssit = [
+    {
+      nimi: 'Half Stack -sovelluskehitys',
+      id: 1,
+      osat: [
+        {
+          nimi: 'Reactin perusteet',
+          tehtavia: 10,
+          id: 1
+        },
+        {
+          nimi: 'Tiedonvälitys propseilla',
+          tehtavia: 7,
+          id: 2
+        },
+        {
+          nimi: 'Komponenttien tila',
+          tehtavia: 14,
+          id: 3
+        }
+      ]
+    },
+    {
+      nimi: 'Node.js',
+      id: 2,
+      osat: [
+        {
+          nimi: 'Routing',
+          tehtavia: 3,
+          id: 1
+        },
+        {
+          nimi: 'Middlewaret',
+          tehtavia: 7,
+          id: 2
+        }
+      ]
+    }
+  ]
   return (
     <div>
-      <Kurssi kurssi={kurssi} />
+      <Kurssit kurssit={kurssit} />
     </div>
   )
+}
+
+const Kurssit = ({kurssit}) => {
+  <div>
+    {kurssit.kurssit.map(kurssi=><Kurssi kurssi={kurssi} />)}
+  </div>  
+  
 }
 
 ReactDOM.render(
