@@ -97,11 +97,12 @@ const App = () => {
   )
 }
 
-const Kurssit = ({kurssit}) => {
-  <div>
-    {kurssit.kurssit.map(kurssi=><Kurssi kurssi={kurssi} />)}
-  </div>  
-  
+const Kurssit = ({ kurssit }) => {
+  return (
+    <div>
+      {kurssit.map(kurssi => <Kurssi kurssi={kurssi} />)}
+    </div>
+  )
 }
 
 ReactDOM.render(
