@@ -13,16 +13,21 @@ class App extends React.Component {
 
   addPerson = (event) => {
     event.preventDefault()
+
     const personObject = {
       name: this.state.newName
     }
 
-    const persons = this.state.persons.concat(personObject)
+    if (this.state.persons.includes(personObject)) {
+      alert('nope')
+    } else {
+      const persons = this.state.persons.concat(personObject)
 
-    this.setState({
-      persons,
-      newName: ''
-    })
+      this.setState({
+        persons,
+        newName: ''
+      })
+    }
   }
 
   handlePersonChange = (event) => {
@@ -35,7 +40,7 @@ class App extends React.Component {
         <h2>Puhelinluettelo</h2>
         <form onSubmit={this.addPerson}>
           <div>
-            nimi: <input onChange={this.handlePersonChange} />
+            nimi: <input value={this.state.newName} onChange={this.handlePersonChange} />
           </div>
           <div>
             <button type="submit">lisää</button>
