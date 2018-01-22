@@ -5,9 +5,13 @@ class App extends React.Component {
     super(props)
     this.state = {
       persons: [
-        { name: 'Arto Hellas' }
+        {
+          name: 'Arto Hellas',
+          number: '112'
+        }
       ],
-      newName: ''
+      newName: '',
+      newNumber: ''
     }
   }
 
@@ -15,6 +19,10 @@ class App extends React.Component {
 
   handlePersonChange = (event) => {
     this.setState({ newName: event.target.value })
+  }
+
+  handleNumberChange = (event) => {
+    this.setState({ newNumber: event.target.value })
   }
 
   addPerson = (event) => {
@@ -25,13 +33,15 @@ class App extends React.Component {
     } else {
 
       const personObject = {
-        name: this.state.newName
+        name: this.state.newName,
+        number: this.state.newNumber
       }
       const persons = this.state.persons.concat(personObject)
 
       this.setState({
         persons,
-        newName: ''
+        newName: '',
+        newNumber: ''
       })
     }
   }
@@ -43,6 +53,9 @@ class App extends React.Component {
         <form onSubmit={this.addPerson}>
           <div>
             nimi: <input value={this.state.newName} onChange={this.handlePersonChange} />
+          </div>
+          <div>
+            numero: <input value={this.state.newNumber} onChange={this.handleNumberChange} />
           </div>
           <div>
             <button type="submit">lisää</button>
@@ -59,7 +72,7 @@ class App extends React.Component {
 
 const Person = ({ person }) => {
   return (
-    <li>{person.name}</li>
+    <li>{person.name} {person.number}</li>
   )
 }
 
