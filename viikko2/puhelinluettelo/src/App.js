@@ -11,16 +11,22 @@ class App extends React.Component {
     }
   }
 
+
+
+  handlePersonChange = (event) => {
+    this.setState({ newName: event.target.value })
+  }
+
   addPerson = (event) => {
     event.preventDefault()
 
-    const personObject = {
-      name: this.state.newName
-    }
-
-    if (this.state.persons.includes(personObject)) {
+    if (this.state.persons.map(person => person.name === this.state.newName).includes(true)) {
       alert('nope')
     } else {
+
+      const personObject = {
+        name: this.state.newName
+      }
       const persons = this.state.persons.concat(personObject)
 
       this.setState({
@@ -28,10 +34,6 @@ class App extends React.Component {
         newName: ''
       })
     }
-  }
-
-  handlePersonChange = (event) => {
-    this.setState({ newName: event.target.value })
   }
 
   render() {
