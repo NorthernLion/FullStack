@@ -8,14 +8,22 @@ class App extends React.Component {
         {
           name: 'Arto Hellas',
           number: '112'
+        },
+        {
+          name: 'matti meikalainen',
+          number: '4241'
         }
       ],
       newName: '',
-      newNumber: ''
+      newNumber: '',
+      filter: ''
     }
   }
 
-
+  handleFilterChange = (event) => {
+    console.log(event.target.value)
+    this.setState({ filter: event.target.value })
+  }
 
   handlePersonChange = (event) => {
     this.setState({ newName: event.target.value })
@@ -47,8 +55,14 @@ class App extends React.Component {
   }
 
   render() {
+    const filter = this.state.filter
+    const persons = this.state.persons
     return (
       <div>
+        <div>
+          rajaa näytettäviä <input value={this.state.filter} onChange={this.handleFilterChange} />
+        </div>
+
         <h2>Puhelinluettelo</h2>
         <form onSubmit={this.addPerson}>
           <div>
@@ -63,11 +77,18 @@ class App extends React.Component {
         </form>
         <h2>Numerot</h2>
         <ul>
-          {this.state.persons.map(person => <Person key={person.name} person={person} />)}
+          {filterPersons(filter, persons).map(person => <Person key={person.name} person={person} />)}
         </ul>
       </div>
     )
   }
+}
+
+const filterPersons = (filter, persons) => {
+  if (filter.length > 0) {
+    return (persons.filter(person => person.name.toLowerCase().includes(filter.toLowerCase())))
+  } else 
+  return persons
 }
 
 const Person = ({ person }) => {
