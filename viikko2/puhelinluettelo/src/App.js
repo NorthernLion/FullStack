@@ -43,7 +43,7 @@ class App extends React.Component {
         </form>
         <h2>Numerot</h2>
         <ul>
-          {this.state.persons.map(person => <Person key={person.id} person={person} />)}
+          {this.state.persons.map(person => <Person key={person.name} person={person} />)}
         </ul>
       </div>
     )
