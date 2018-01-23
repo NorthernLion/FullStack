@@ -47,12 +47,23 @@ const Countries = ({ countries }) => {
     return (<div>too many matches, specify another filter</div>)
   } else if (One(countries)) {
     console.log('onecountry only activated')
-    return (<Country country={countries[0]} />)
+    return (<FullCountry country={countries[0]} />)
   } else {
     return (
       countries.map(country => <Country country={country} />)
     )
   }
+}
+
+const FullCountry = ({ country }) => {
+  return (
+    <div>
+      <h1>{country.name} {country.nativeName}</h1>
+      <p>capital: {country.capital}</p>
+      <p>population: {country.population}</p>
+      <img src={country.flag} />>
+    </div>
+  )
 }
 
 const Country = ({ country }) => {
