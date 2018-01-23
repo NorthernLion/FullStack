@@ -1,4 +1,5 @@
-import React from 'react';
+import React from 'react'
+import Person from './components/Person'
 
 class App extends React.Component {
   constructor(props) {
@@ -91,10 +92,7 @@ const filterPersons = (filter, persons) => {
   return persons
 }
 
-const Person = ({ person }) => {
-  return (
-    <li>{person.name} {person.number}</li>
-  )
-}
+
+
 
 export default App;
