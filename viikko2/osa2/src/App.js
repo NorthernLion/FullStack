@@ -1,10 +1,12 @@
 import React from 'react'
 import Note from './components/Note'
+import axios from 'axios'
+
 class App extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            notes: props.notes,
+            notes: [],
             newNote: 'uusi muistiinpano...',
             showAll: true
         }
@@ -36,7 +38,20 @@ class App extends React.Component {
         this.setState({ showAll: !this.state.showAll })
     }
 
+
+    componentWillMount() {
+        console.log('will mount')
+
+        axios
+            .get('http://localhost:3001/notes')
+            .then(response => {
+                console.log('promise fullfilled')
+                this.setState({ notes: response.data })
+            })
+    }
+
     render() {
+        console.log('render')
         const noteToShow =
             this.state.showAll ?
                 this.state.notes :
