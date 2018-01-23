@@ -29,7 +29,6 @@ class App extends React.Component {
         .destroy(person.id)
         .then(newPerson => {
           this.setState({
-            persons: newPersons,
             newName: '',
             newNumber: ''
           })
@@ -56,7 +55,16 @@ class App extends React.Component {
     event.preventDefault()
 
     if (this.state.persons.map(person => person.name === this.state.newName).includes(true)) {
-      alert('nope')
+      if (window.confirm(`${this.state.newName} on jo luettelossa, korvataanko vanha numero uudella?`)) {
+        const person = this.state.persons.find(n => n.id === this.state.newName)
+        const changedPerson = {...person, number: this.state.newNumber}
+        
+        personService
+          .update(this.state.newName, changedPerson)
+          .then(changedPerson => {
+            persons: this.state.persons.map(person => person.id !== this.state.newName ? person : changedPerson)
+          })
+      }
     } else {
 
       const personObject = {
