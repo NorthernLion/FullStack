@@ -1,10 +1,10 @@
 import React from 'react'
 import Person from './components/Person'
-import axios from 'axios'
+import personService from './services/persons'
 
 class App extends React.Component {
   constructor(props) {
-    
+
     super(props)
     this.state = {
       persons: [],
@@ -15,11 +15,10 @@ class App extends React.Component {
   }
 
   componentWillMount() {
-    console.log('mounting start')
-    axios
-      .get('http://localhost:3001/persons')
-      .then(response => {
-        this.setState({ persons : response.data })
+    personService
+      .getAll()
+      .then(persons => {
+        this.setState({ persons })
       })
   }
 
@@ -47,51 +46,54 @@ class App extends React.Component {
         name: this.state.newName,
         number: this.state.newNumber
       }
-      const persons = this.state.persons.concat(personObject)
 
-      this.setState({
-        persons,
-        newName: '',
-        newNumber: ''
+      personService
+        .create(personObject)
+        .then(newPerson => {
+          this.setState({
+            persons: this.state.persons.concat(personObject),
+            newName: '',
+            newNumber: ''
       })
-    }
+    })
   }
+}
 
-  render() {
-    const filter = this.state.filter
-    const persons = this.state.persons
-    return (
+render() {
+  const filter = this.state.filter
+  const persons = this.state.persons
+  return (
+    <div>
       <div>
-        <div>
-          rajaa näytettäviä <input value={this.state.filter} onChange={this.handleFilterChange} />
-        </div>
-
-        <h2>Puhelinluettelo</h2>
-        <form onSubmit={this.addPerson}>
-          <div>
-            nimi: <input value={this.state.newName} onChange={this.handlePersonChange} />
-          </div>
-          <div>
-            numero: <input value={this.state.newNumber} onChange={this.handleNumberChange} />
-          </div>
-          <div>
-            <button type="submit">lisää</button>
-          </div>
-        </form>
-        <h2>Numerot</h2>
-        <ul>
-          {filterPersons(filter, persons).map(person => <Person key={person.name} person={person} />)}
-        </ul>
+        rajaa näytettäviä <input value={this.state.filter} onChange={this.handleFilterChange} />
       </div>
-    )
-  }
+
+      <h2>Puhelinluettelo</h2>
+      <form onSubmit={this.addPerson}>
+        <div>
+          nimi: <input value={this.state.newName} onChange={this.handlePersonChange} />
+        </div>
+        <div>
+          numero: <input value={this.state.newNumber} onChange={this.handleNumberChange} />
+        </div>
+        <div>
+          <button type="submit">lisää</button>
+        </div>
+      </form>
+      <h2>Numerot</h2>
+      <ul>
+        {filterPersons(filter, persons).map(person => <Person key={person.name} person={person} />)}
+      </ul>
+    </div>
+  )
+}
 }
 
 const filterPersons = (filter, persons) => {
   if (filter.length > 0) {
     return (persons.filter(person => person.name.toLowerCase().includes(filter.toLowerCase())))
-  } else 
-  return persons
+  } else
+    return persons
 }
 
 
