@@ -1,20 +1,14 @@
 {
   "persons": [
     {
-      "id": "Arto Hellas",
-      "name": "Arto Hellas",
-      "number": "agaegagaeg"
+      "name": "Arto Järvinen",
+      "number": "040-123456",
+      "id": 3
     },
     {
-      "id": "afafaef",
-      "name": "afafaef",
-      "number": "q3523512515"
-    },
-    {
-      "id": "Lallu",
-      "name": "Lallu",
-      "number": "661616",
-      "numer": "51515"
+      "id": "Arto järvinen",
+      "name": "Arto järvinen",
+      "number": "261616'"
     }
   ]
 }

@@ -1,6 +1,8 @@
 import React from 'react'
 import Person from './components/Person'
 import personService from './services/persons'
+import Notification from './components/Notification'
+import './App.css'
 
 class App extends React.Component {
   constructor(props) {
@@ -11,6 +13,7 @@ class App extends React.Component {
       newName: '',
       newNumber: '',
       filter: '',
+      error: ''
     }
   }
 
@@ -29,9 +32,16 @@ class App extends React.Component {
         .destroy(person.id)
         .then(newPerson => {
           this.setState({
+            error: `poistettiin ${person.name}`,
             newName: '',
             newNumber: ''
           })
+
+          setTimeout(() => {
+            this.setState({
+              error: ``
+            })
+          }, 1000)
         })
     }
 
@@ -57,12 +67,18 @@ class App extends React.Component {
     if (this.state.persons.map(person => person.name === this.state.newName).includes(true)) {
       if (window.confirm(`${this.state.newName} on jo luettelossa, korvataanko vanha numero uudella?`)) {
         const person = this.state.persons.find(n => n.id === this.state.newName)
-        const changedPerson = {...person, number: this.state.newNumber}
-        
+        const changedPerson = { ...person, number: this.state.newNumber }
+
         personService
           .update(this.state.newName, changedPerson)
           .then(changedPerson => {
             persons: this.state.persons.map(person => person.id !== this.state.newName ? person : changedPerson)
+          })
+          .catch(error => {
+            this.setState({
+              error: `henkilö on jo poistettu`,
+              persons: this.state.persons.filter(n => n.id !== person.id)
+            })
           })
       }
     } else {
@@ -79,10 +95,16 @@ class App extends React.Component {
           const newPersons = this.state.persons
           newPersons.push(personObject)
           this.setState({
+            error: `lisättiin ${newPerson.name}`,
             persons: newPersons,
             newName: '',
             newNumber: ''
           })
+          setTimeout(() => {
+            this.setState({
+              error: ``
+            })
+          }, 1000)
         })
     }
   }
@@ -95,7 +117,7 @@ class App extends React.Component {
         <div>
           rajaa näytettäviä <input value={this.state.filter} onChange={this.handleFilterChange} />
         </div>
-
+        <Notification message={this.state.error} />
         <h2>Puhelinluettelo</h2>
         <form onSubmit={this.addPerson}>
           <div>
