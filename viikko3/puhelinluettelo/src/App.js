@@ -1,8 +1,8 @@
 import React from 'react'
-import Person from './components/Person'
+import Persons from './components/Persons'
+import PersonsForm from './components/PersonForm'
 import personService from './services/persons'
 import Notification from './components/Notification'
-import './App.css'
 
 class App extends React.Component {
   constructor(props) {
@@ -38,124 +38,113 @@ class App extends React.Component {
   }
 
   notify = (notification) => {
-    this.setState({ notification})
+    this.setState({ notification })
     setTimeout(() => {
-      this.setState({ notification: null})
+      this.setState({ notification: null })
     }, 3000)
   }
 
   addPerson = (event) => {
     event.preventDefault()
 
-    if (this.state.persons.map(person => person.name === this.state.newName).includes(true)) {
-      if (window.confirm(`${this.state.newName} on jo luettelossa, korvataanko vanha numero uudella?`)) {
-        const person = this.state.persons.find(n => n.id === this.state.newName)
-        const changedPerson = { ...person, number: this.state.newNumber }
+    const name = this.state.newName
+    const number = this.state.newNumber
 
-        personService
-          .update(this.state.newName, changedPerson)
-          .then(changedPerson => {
-            persons: this.state.persons.map(person => person.id !== this.state.newName ? person : changedPerson)
-          })
-          .catch(error => {
-            this.setState({
-              error: `henkilö on jo poistettu`,
-              persons: this.state.persons.filter(n => n.id !== person.id)
-            })
-          })
-      }
+    const existingPerson = this.state.persons.find(person => person.name === name)
+    if (existingPerson) {
+      this.updatePhone(existingPerson.id)
     } else {
+      this.createNewPerson({ name, number })
+    }
 
-      const personObject = {
-        id: this.state.newName,
-        name: this.state.newName,
-        number: this.state.newNumber
-      }
+  }
 
+  updatePhone = (id) => {
+    const name = this.state.newName
+    const number = this.state.newNumber
+
+    this.setState({
+      newName: '',
+      newNumber: ''
+    })
+
+    if (window.confirm(`${name} on jo luettelossa, korvataanko vanha numero uudella?`)) {
       personService
-        .create(personObject)
-        .then(newPerson => {
-          const newPersons = this.state.persons
-          newPersons.push(personObject)
-          this.setState({
-            error: `lisättiin ${newPerson.name}`,
-            persons: newPersons,
-            newName: '',
-            newNumber: ''
-          })
-          setTimeout(() => {
-            this.setState({
-              error: ``
-            })
-          }, 1000)
+        .update(id, { name, number })
+        .then(updatedPerson => {
+          this.setState({ persons: this.state.persons.map(person => person.id !== id ? person : updatedPerson) })
+          this.notify(`${updatedPerson.name} number updated`)
+        })
+        .catch(error => {
+          this.createNewPerson({ name, number })
         })
     }
   }
 
-  destroyPerson = (person) => () => {
+  createNewPerson = (person) => {
+    personService
+      .create(person)
+      .then(person => {
+        this.setState({
+          persons: this.state.persons.filter(p => p.id !== person.id).concat(person),
+          newName: '',
+          newNumber: ''
+        })
+        this.notify(`${person.name} added`)
+      })
+  }
+
+  removePerson = (id) => () => {
+    const person = this.state.persons.find(person => person.id === id)
     if (window.confirm(`poistetaanko ${person.name}`)) {
       personService
-        .destroy(person.id)
+        .remove(id)
         .then(newPerson => {
           this.setState({
-            error: `poistettiin ${person.name}`,
-            newName: '',
-            newNumber: ''
+            persons: this.state.persons.filter(person => person.if !== id)
           })
-
-          setTimeout(() => {
-            this.setState({
-              error: ``
-            })
-          }, 1000)
+          this.notify(`${person.name} removed`)
         })
     }
   }
 
   render() {
-    const filter = this.state.filter
-    const persons = this.state.persons
+    const bySearchTerm = (person) => {
+      if (this.state.search.length === 0) {
+        return true
+      }
+
+      return person.name.toLowerCase().includes(this.state.search.toLowerCase())
+    }
+
+    const personsToShow = this.state.persons.filter(bySearchTerm)
+
     return (
       <div>
-        <div>
-          rajaa näytettäviä <input value={this.state.filter} onChange={this.handleFilterChange} />
-        </div>
-        <Notification message={this.state.error} />
         <h2>Puhelinluettelo</h2>
-        <form onSubmit={this.addPerson}>
-          <div>
-            nimi: <input value={this.state.newName} onChange={this.handlePersonChange} />
-          </div>
-          <div>
-            numero: <input value={this.state.newNumber} onChange={this.handleNumberChange} />
-          </div>
-          <div>
-            <button type="submit">lisää</button>
-          </div>
-        </form>
-        <h2>Numerot</h2>
-        <ul>
-          {filterPersons(filter, persons).map(person =>
-            <Person
-              key={person.name}
-              person={person}
-              destroy={this.destroyPerson(person)}
-            />
-          )}
-        </ul>
+        <Notification message={this.state.notification} />
+        <div>
+          rajaa näytettäviä
+          <input
+            onChange={this.handleSearchChange}
+            value={this.state.search}
+          />
+        </div>
+        <PersonsForm
+          addPerson={this.addPerson}
+          handleNumberChange={this.handleNumberChange}
+          handleNameChange={this.handleNameChange}
+          newName={this.state.newName}
+          newNumber={this.state.newNumber}
+        />
+        <Persons
+          persons={personsToShow}
+          removePerson={this.removePerson}
+        />
       </div>
     )
   }
 }
 
-const filterPersons = (filter, persons) => {
-  if (filter.length > 0) {
-    return (persons.filter(person => person.name.toLowerCase().includes(filter.toLowerCase())))
-  } else
-    return persons
-}
 
-
-
-
-export default App;
+export default App
