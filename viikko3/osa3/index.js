@@ -1,6 +1,9 @@
 const express = require('express')
 const app = express()
 const bodyParser = require('body-parser')
+const cors = require('cors')
+
+app.use(cors())
 
 app.use(bodyParser.json())
 
@@ -74,6 +77,12 @@ app.delete('/notes/:id', (req, res) => {
 
   res.status(204).end()
 })
+
+const error = (req, res) => {
+  res.status(404).send({error: `unknown endpoint`})
+}
+
+app.use(error)
 
 const PORT = 3001
 app.listen(PORT, () => {
