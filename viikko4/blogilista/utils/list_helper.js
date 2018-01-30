@@ -19,7 +19,7 @@ const favoriteBlog = (blogs) => {
 
 const mostBlogs = (blogs) => {
 
-  if(blogs.length === 0) {
+  if (blogs.length === 0) {
     return null
   }
   const authors = blogs.map(blog => blog.author)
@@ -27,8 +27,8 @@ const mostBlogs = (blogs) => {
   let mf = 1
   let m = 0
   let author = authors[0]
-  for (var i=0; i<authors.length; i++) {
-    for (var j=i; j<authors.length; j++) {
+  for (var i = 0; i < authors.length; i++) {
+    for (var j = i; j < authors.length; j++) {
       if (authors[i] === authors[j]) {
         m++
       }
@@ -37,7 +37,7 @@ const mostBlogs = (blogs) => {
         author = authors[i]
       }
     }
-    m=0
+    m = 0
   }
 
   return {
@@ -45,9 +45,30 @@ const mostBlogs = (blogs) => {
     blogs: mf
   }
 }
+
+const mostLikes = (blogs) => {
+
+  const authors = blogs.map(blog => blog.author)
+  const votes = blogs.map(blog => blog.votes)
+  let sumVotes
+
+  for (var i = 0; i < authors.length; i++) {
+    for (var j = 0; j < authors.length; j++) {
+      if (authors[i] === authors[j]) {
+        votes
+      }
+      if (mf < m) {
+        mf = m
+        author = authors[i]
+      }
+    }
+  }
+}
+
 module.exports = {
   dummy,
   totalLikes,
   favoriteBlog,
-  mostBlogs
+  mostBlogs,
+  mostLikes
 }
