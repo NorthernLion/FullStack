@@ -94,4 +94,26 @@ describe('Blogs,', () => {
       expect(result).toEqual(blogs[2])
     })
   })
+  describe('most blogs,', () => {
+    test('when list has only one is the one blog', () => {
+      const result = listHelper.mostBlogs(listWithOneBlog)
+      expect(result).toEqual({
+        author: listWithOneBlog[0].author,
+        blogs: 1
+      })
+    })
+
+    test('when there are no blogs return null', () => {
+      const result = listHelper.mostBlogs(emptylist)
+      expect(result).toEqual(null)
+    })
+
+    test('when list has many blogs return right one', () => {
+      const result = listHelper.mostBlogs(blogs)
+      expect(result).toEqual({
+        author: blogs[3].author,
+        blogs: 3
+      })
+    })
+  })
 })

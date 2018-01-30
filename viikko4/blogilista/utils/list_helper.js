@@ -11,13 +11,43 @@ const totalLikes = (blogs) => {
 
 
 const favoriteBlog = (blogs) => {
-  let likes = blogs.map(blog => blog.likes)
-  let maxLikes = Math.max(...likes)
-  let favorite = blogs.find(element => element.likes === maxLikes)
+  const likes = blogs.map(blog => blog.likes)
+  const maxLikes = Math.max(...likes)
+  const favorite = blogs.find(element => element.likes === maxLikes)
   return favorite
+}
+
+const mostBlogs = (blogs) => {
+
+  if(blogs.length === 0) {
+    return null
+  }
+  const authors = blogs.map(blog => blog.author)
+
+  let mf = 1
+  let m = 0
+  let author = authors[0]
+  for (var i=0; i<authors.length; i++) {
+    for (var j=i; j<authors.length; j++) {
+      if (authors[i] === authors[j]) {
+        m++
+      }
+      if (mf < m) {
+        mf = m
+        author = authors[i]
+      }
+    }
+    m=0
+  }
+
+  return {
+    author: author,
+    blogs: mf
+  }
 }
 module.exports = {
   dummy,
   totalLikes,
-  favoriteBlog
+  favoriteBlog,
+  mostBlogs
 }
