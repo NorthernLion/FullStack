@@ -4,6 +4,5 @@ Content-Type: application/json
 {
   "title": "how to eat your face",
   "author": "zoiberg",
-  "url": "google.fi",
-  "likes": 20
+  "url": "google.fi"
 }
