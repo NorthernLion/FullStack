@@ -99,8 +99,11 @@ describe('when POST request is made, ', () => {
     expect(Blog.formatNoId(postResponse.body)).toEqual(Blog.formatNoId(newBlog))
   })
 
-  test("a blog without content is not added", async () => {
-    newBlog = {}
+  test("a blog without title is not added", async () => {
+    newBlog = {
+      "author": "zoiberg",
+      "url": "google.fi",
+      "likes": 20}
     await api
       .post('/api/blogs')
       .send(newBlog)
