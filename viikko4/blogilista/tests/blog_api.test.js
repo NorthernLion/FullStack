@@ -104,7 +104,33 @@ describe('when there is initially some blogs saved', async () => {
       expect(postResponse.body.likes).toEqual(0)
     })
   })
+  describe('when DELETE request is made to api/blogs/:id ', () => {
+    let postResponse
+    beforeAll(async () => {
+      const addedBlog = new Blog({
+        "title": "how to eat your face",
+        "author": "zoiberg",
+        "url": "google.fi",
+        "likes": 20
+      })
 
+      postResponse = await api
+        .post('/api/blogs')
+        .send(addedBlog)
+    })
+    test('a blog can be deleted', async () => {
+      const blogsAtStart = await blogsInDb()
+
+      await api
+        .delete(`api/blogs/${postResponse._id}`)
+
+      const blogsAtEnd = await blogsInDb()
+      
+      expect(blogsAtEnd.length).toBe(blogsAtStart.length)
+      expect(blogsAtEnd.map(Blog.formatNoId)).not.toContainEqual(newBlog)
+
+    })
+  })
   afterAll(() => {
     server.close()
   })
