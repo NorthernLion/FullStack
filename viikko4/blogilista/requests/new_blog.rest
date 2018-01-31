@@ -1,6 +1,7 @@
-POST http://localhost:3001/api/blogs 
+POST http://localhost:3001/api/blogs
 Content-Type: application/json
-Authorization: 'bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Imphc3BlcmxpIiwiaWQiOiI1YTcxZWM0Zjk1ZGViNjE5YjQyYmFlOWQiLCJpYXQiOjE1MTc0MTk5MTN9.Hqa9gZoQAI-vSfCiDz2Yek6F5xqNrVWBEBZRPMtZuSk'
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Imphc3BlcmxpIiwiaWQiOiI1YTcxZWM0Zjk1ZGViNjE5YjQyYmFlOWQiLCJpYXQiOjE1MTc0MTk5MTN9.Hqa9gZoQAI-vSfCiDz2Yek6F5xqNrVWBEBZRPMtZuSk
+
 {
   "title": "how to eat your face",
   "author": "zoiberg",
