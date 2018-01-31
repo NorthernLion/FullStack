@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 
 const User = mongoose.model('User', {
-  useranme: String,
+  username: String,
   name: String,
   passwordHash: String,
   adult: Boolean,
@@ -11,11 +11,19 @@ const User = mongoose.model('User', {
 User.format = function (user) {
   return {
     id: user._id,
-    useranme: user.username,
+    username: user.username,
     name: user.name,
     adult: user.adult
   }
 }
+
+User.formatNames = function (user) {
+  return {
+    username: user.username,
+    name: user.name
+  }
+}
+
 
 
 module.exports = User
