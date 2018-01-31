@@ -47,7 +47,8 @@ describe('when there is initially some blogs saved', async () => {
         "title": "how to eat your face",
         "author": "zoiberg",
         "url": "google.fi",
-        "likes": 20
+        "likes": 20,
+        "userId": "5a71ef66dc3e8f204bda2599"
       }
       const postResponse = await api
         .post('/api/blogs')
@@ -69,7 +70,7 @@ describe('when there is initially some blogs saved', async () => {
       newBlog = {
         "author": "zoiberg",
         "url": "google.fi",
-        "likes": 20
+        "likes": 20,
       }
       await api
         .post('/api/blogs')
@@ -90,6 +91,7 @@ describe('when there is initially some blogs saved', async () => {
         "title": "how to eat your face",
         "author": "zoiberg",
         "url": "google.fi",
+        "userId": "5a71ef66dc3e8f204bda2599"
       }
       const postResponse = await api
         .post('/api/blogs')

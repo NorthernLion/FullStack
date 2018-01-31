@@ -14,7 +14,8 @@ Blog.format = function (blog) {
     title: blog.title,
     author: blog.author,
     url: blog.url,
-    likes: blog.likes
+    likes: blog.likes,
+    user: blog.user
   }
 }
 

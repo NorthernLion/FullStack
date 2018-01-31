@@ -10,10 +10,6 @@ usersRouter.post('/', async (request, response) => {
     if (existingUser.length > 0) {
       return response.status(400).json({ error: 'username must be unique' })
     }
-    if (body.username === undefined || body.username.length < 3) {
-      return response.status(400).json({ error: 'username missing or too short' })
-    }
-
     if (body.password === undefined || body.password.length < 3) {
       return response.status(400).json({ error: 'password missing or too short' })
     }
@@ -39,7 +35,9 @@ usersRouter.post('/', async (request, response) => {
 
 
 usersRouter.get('/', async (request, response) => {
-  const users = await User.find({})
+  const users = await User
+    .find({})
+    .populate('blogs', {title: 1, url: 1, likes: 1})
   response.json(users.map(User.format))
 })
 
