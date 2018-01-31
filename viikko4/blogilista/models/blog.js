@@ -17,4 +17,14 @@ Blog.format = function (blog) {
   }
 }
 
+Blog.formatNoId = function (blog) {
+  return {
+    title: blog.title,
+    author: blog.author,
+    url: blog.url,
+    likes: blog.likes
+  }
+}
+
+
 module.exports = Blog
