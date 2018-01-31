@@ -103,7 +103,8 @@ describe('when POST request is made, ', () => {
     newBlog = {
       "author": "zoiberg",
       "url": "google.fi",
-      "likes": 20}
+      "likes": 20
+    }
     await api
       .post('/api/blogs')
       .send(newBlog)
@@ -116,6 +117,28 @@ describe('when POST request is made, ', () => {
     const contents = response.body.map(r => r.content)
 
     expect(response.body.length).toBe(blogs.length + 1)
+  })
+
+  test("a blog without likes is added and gets value of 0 likes", async () => {
+    newBlog = {
+      "title": "how to eat your face",
+      "author": "zoiberg",
+      "url": "google.fi",
+    }
+    const postResponse = await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(201)
+      .expect('Content-Type', /application\/json/)
+
+
+    const response = await api
+      .get('/api/blogs')
+
+    const contents = response.body.map(r => r.content)
+
+    expect(response.body.length).toBe(blogs.length + 2)
+    expect(Blog.formatNoId(postResponse.body).likes).toEqual(0)
   })
 })
 
