@@ -9,8 +9,8 @@ blogsRouter.get('/', async (request, response) => {
 blogsRouter.post('/', async (request, response) => {
   try {
     const body = request.body
-    if (body.title === undefined) {
-      return response.status(400).json({ error: `content missing` })
+    if (body.title === undefined || body.url === undefined) {
+      return response.status(400).json({ error: `You need to give title and url in order to post a blog` })
     }
 
     const blog = new Blog({
