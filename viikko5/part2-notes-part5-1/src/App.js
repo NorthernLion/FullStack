@@ -23,6 +23,13 @@ class App extends React.Component {
       .then(notes => {
         this.setState({ notes })
       })
+
+      const loggedUserJSON = window.localStorage.getItem('loggedNoteappUser')
+      if (loggedUserJSON) {
+        const user = JSON.parse(loggedUserJSON)
+        this.setState({user})
+        noteService.setToken(user.token)
+      }
   }
 
   toggleVisible = () => {
@@ -73,19 +80,27 @@ class App extends React.Component {
 
   login = (e) => {
     e.preventDefault()
-    console.log('login in with', this.state.username, this.state.password)
+    try {
+      const user = await longinService.login({
+        username: this.state.username,
+        password: this.state.password
+      })
+
+      window.localStorage.setItem('LoggedNoteappUser', JSON.stringify(user))
+      noteService.setToken(user.token)
+      this.setState({ username: '', password: '', user })
+    } catch (exception) {
+      this.setState({
+        error: "käyttäjätunnus tai salasana virheellinen"
+      })
+      setTimeout(() => {
+        this.setState({ error: null })
+      }, 5000);
+    }
   }
 
-  handleNoteChange = (e) => {
-    this.setState({ new_note: e.target.value })
-  }
-
-  handlePasswordChange = (e) => {
-    this.setState({ password: e.target.value })
-  }
-
-  handleUsernameChange = (e) => {
-    this.setState({ username: e.target.value })
+  handleChange = (e) => {
+    this.setState({ [event.target.name]: event.target.value })
   }
 
   toggleVisible = () => {
@@ -100,12 +115,8 @@ class App extends React.Component {
 
     const label = this.state.showAll ? 'vain tärkeät' : 'kaikki'
 
-    return (
+    const loginForm = () => {
       <div>
-        <h1>Muistiinpanot</h1>
-
-        <Notification message={this.state.error} />
-
         <h2>Kirjaudu</h2>
 
         <form onSubmit={this.login}>
@@ -113,42 +124,64 @@ class App extends React.Component {
             käyttäjätunnus
             <input
               type="text"
+              name="username"
               value={this.state.username}
-              onChange={this.handleUsernameChange}
+              onChange={this.handleChange}
             />
           </div>
           <div>
             salasana
             <input
               type="password"
+              name="password"
               value={this.state.password}
-              onChange={this.handlePasswordChange}
+              onChange={this.handleChange}
             />
           </div>
           <button>kirjaudu</button>
         </form>
+      </div>
+    }
 
+    const noteForm = () => {
+      <div>
         <h2>Luo uusi muistiinpano</h2>
 
         <form onSubmit={this.addNote}>
           <input
             value={this.state.newNote}
-            onChange={this.handleNoteChange}
+            name="newNte"
+            onChange={this.handleChange}
           />
           <button type="submit">tallenna</button>
         </form>
 
+      </div>
+    }
+    return (
+      <div>
+        <h1>Muistiinpanot</h1>
+
         <Notification message={this.state.error} />
+
+        {this.state.user === null ?
+          loginForm() :
+          <div>
+            <p>{this.state.user.name} logged in</p>
+            noteform()
+          </div>
+        }
+
         <div>
           <button onClick={this.toggleVisible}>
             näytä {label}
           </button>
         </div>
         <ul>
-          {notesToShow.map(note => 
-            <Note 
-              key={note.id} 
-              note={note} 
+          {notesToShow.map(note =>
+            <Note
+              key={note.id}
+              note={note}
               toggleImportance={this.toggleImportanceOf(note.id)}
             />)}
         </ul>
