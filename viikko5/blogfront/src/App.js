@@ -32,6 +32,21 @@ class App extends React.Component {
     this.setState({ [event.target.name]: event.target.value })
   }
 
+  logout = async (event) => {
+    event.preventDefault()
+    try {
+      window.localStorage.removeItem('loggedUser')
+      blogService.setToken(null)
+      this.setState({
+        username: '',
+        password: '',
+        user: null
+      })
+    } catch (exception) {
+      console.log(exception)
+    }
+  }
+
   login = async (event) => {
     event.preventDefault()
     try {
@@ -92,11 +107,24 @@ class App extends React.Component {
       </div>
     )
 
+    const logoutForm = () => (
+      <div>
+        <form onSubmit={this.logout}>
+          <button>logout</button>
+        </form>
+      </div>
+    )
+
     return(
       <div>
         {this.state.user === null ?
           loginForm() :
-          blogList() 
+          <div>
+            <p>{this.state.user.name} logged in</p>
+            {logoutForm()}
+            {blogList()} 
+          </div>
+          
         }
       </div>
     )
