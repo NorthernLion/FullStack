@@ -2,6 +2,7 @@ import React from 'react'
 import Blog from './components/Blog'
 import blogService from './services/blogs'
 import loginService from './services/login'
+import Notification from './components/Notification';
 
 class App extends React.Component {
   constructor(props) {
@@ -13,7 +14,8 @@ class App extends React.Component {
       user: null,
       author: '',
       title: '',
-      url: ''
+      url: '',
+      notification: null
     }
   }
 
@@ -31,6 +33,13 @@ class App extends React.Component {
     }
   }
 
+  notify = (notification) => {
+    this.setState({ notification })
+    setTimeout(() => {
+      this.setState({ notification: null })
+    }, 3000)
+  }
+
   addBlog = async (event) => {
     try {
       event.preventDefault()
@@ -39,13 +48,17 @@ class App extends React.Component {
         author: this.state.author,
         url: this.state.url
       })
-
+      
+      this.notify(`A new blog ${this.state.title} by ${this.state.author} added`)
+      
       this.setState({
         title: '',
         author: '',
         url: '',
         blogs: this.state.blogs.concat(newBlog)
       })
+
+
     } catch (ex) {
       this.setState({
         error: `couldn't add new blog due to an error: ${ex}`
@@ -96,6 +109,7 @@ class App extends React.Component {
       })
 
     } catch (exception) {
+      this.notify(`Wrong username or password`)
       console.log(exception)
     }
   }
@@ -185,6 +199,7 @@ class App extends React.Component {
 
     return (
       <div>
+        <Notification message={this.state.notification} />
         {this.state.user === null ?
           loginForm() :
           <div>
