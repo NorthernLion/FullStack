@@ -17,7 +17,17 @@ app.use(cors())
 app.use(bodyParser.json())
 app.use(express.static('build'))
 app.use(middleware.logger)
-app.use(middleware.tokenExtractor)
+const extractToken = (request, response, next) => {
+  const authorization = request.get('authorization')
+  if (authorization && authorization.toLowerCase().startsWith('bearer ')) {
+    request.token = authorization.substring(7)
+  }
+
+  next()
+}
+
+
+app.use(extractToken)
 
 app.use('/api/blogs', blogsRouter)
 app.use('/api/users', usersRouter)
