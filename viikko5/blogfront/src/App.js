@@ -2,7 +2,11 @@ import React from 'react'
 import Blog from './components/Blog'
 import blogService from './services/blogs'
 import loginService from './services/login'
-import Notification from './components/Notification';
+import Notification from './components/Notification'
+import BlogForm from './components/BlogForm'
+import LogoutForm from './components/LogoutForm'
+import LoginForm from './components/LoginForm'
+import Togglable from './components/Togglable'
 
 class App extends React.Component {
   constructor(props) {
@@ -116,31 +120,12 @@ class App extends React.Component {
 
   render() {
     const loginForm = () => (
-      <div>
-        <h2>Kirjaudu</h2>
-
-        <form onSubmit={this.login}>
-          <div>
-            käyttäjätunnus
-            <input
-              type="text"
-              name="username"
-              value={this.state.username}
-              onChange={this.handleChange}
-            />
-          </div>
-          <div>
-            salasana
-            <input
-              type="password"
-              name="password"
-              value={this.state.password}
-              onChange={this.handleChange}
-            />
-          </div>
-          <button>kirjaudu</button>
-        </form>
-      </div>
+      <LoginForm
+        onSubmit={this.login}
+        username={this.state.username}
+        password={this.state.password}
+        handleChange={this.handleChange}
+      />
     )
 
     const blogList = () => (
@@ -153,48 +138,21 @@ class App extends React.Component {
     )
 
     const logoutForm = () => (
-      <div>
-        <form onSubmit={this.logout}>
-          <button>logout</button>
-        </form>
-      </div>
+      <LogoutForm
+        onSubmit={this.logout}
+      />
     )
 
     const blogForm = () => (
-      <div>
-        <h2>Kirjaudu</h2>
-
-        <form onSubmit={this.addBlog}>
-          <div>
-            title
-            <input
-              type="text"
-              name="title"
-              value={this.state.title}
-              onChange={this.handleChange}
-            />
-          </div>
-          <div>
-            author
-            <input
-              type="text"
-              name="author"
-              value={this.state.author}
-              onChange={this.handleChange}
-            />
-          </div>
-          <div>
-            url
-            <input
-              type="text"
-              name="url"
-              value={this.state.url}
-              onChange={this.handleChange}
-            />
-          </div>
-          <button>create</button>
-        </form>
-      </div>
+      <Togglable buttonLabel="create">
+        <BlogForm
+          onSubmit={this.addBlog}
+          title={this.state.title}
+          author={this.state.author}
+          url={this.state.url}
+          handleChange={this.handleChange}
+        />
+      </Togglable>
     )
 
     return (
