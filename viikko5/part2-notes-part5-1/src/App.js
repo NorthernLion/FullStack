@@ -1,7 +1,11 @@
 import React from 'react'
 import Note from './components/Note'
+import Togglable from './components/Togglable'
+import NoteForm from './components/NoteForm'
 import Notification from './components/Notification'
 import noteService from './services/notes'
+import LoginForm from './components/LoginForm'
+import longinService from './services/login'
 
 class App extends React.Component {
   constructor() {
@@ -13,7 +17,8 @@ class App extends React.Component {
       error: null,
       username: '',
       password: '',
-      user: null
+      user: null,
+      visible: false
     }
   }
 
@@ -24,12 +29,12 @@ class App extends React.Component {
         this.setState({ notes })
       })
 
-      const loggedUserJSON = window.localStorage.getItem('loggedNoteappUser')
-      if (loggedUserJSON) {
-        const user = JSON.parse(loggedUserJSON)
-        this.setState({user})
-        noteService.setToken(user.token)
-      }
+    const loggedUserJSON = window.localStorage.getItem('loggedNoteappUser')
+    if (loggedUserJSON) {
+      const user = JSON.parse(loggedUserJSON)
+      this.setState({ user })
+      noteService.setToken(user.token)
+    }
   }
 
   toggleVisible = () => {
@@ -38,6 +43,7 @@ class App extends React.Component {
 
   addNote = (event) => {
     event.preventDefault()
+    this.noteForm.toggleVisibility()
     const noteObject = {
       content: this.state.newNote,
       date: new Date(),
@@ -78,7 +84,7 @@ class App extends React.Component {
     }
   }
 
-  login = (e) => {
+  login = async (e) => {
     e.preventDefault()
     try {
       const user = await longinService.login({
@@ -99,7 +105,7 @@ class App extends React.Component {
     }
   }
 
-  handleChange = (e) => {
+  handleChange = (event) => {
     this.setState({ [event.target.name]: event.target.value })
   }
 
@@ -115,49 +121,28 @@ class App extends React.Component {
 
     const label = this.state.showAll ? 'vain tärkeät' : 'kaikki'
 
-    const loginForm = () => {
-      <div>
-        <h2>Kirjaudu</h2>
+    const loginForm = () => (
+      <Togglable buttonLabel="login">
+        <LoginForm
+          visible={this.state.visible}
+          username={this.state.username}
+          password={this.state.password}
+          handleChange={this.handleLoginFieldChange}
+          handleSubmit={this.login}
+        />
+      </Togglable>
+    )
 
-        <form onSubmit={this.login}>
-          <div>
-            käyttäjätunnus
-            <input
-              type="text"
-              name="username"
-              value={this.state.username}
-              onChange={this.handleChange}
-            />
-          </div>
-          <div>
-            salasana
-            <input
-              type="password"
-              name="password"
-              value={this.state.password}
-              onChange={this.handleChange}
-            />
-          </div>
-          <button>kirjaudu</button>
-        </form>
-      </div>
-    }
+    const noteForm = () => (
+      <Togglable buttonLabel="new note" ref={component => this.noteForm = component}>
+        <NoteForm
+          onSubmit={this.addNote}
+          value={this.state.newNote}
+          handleChange={this.handleNoteChange}
+        />
+      </Togglable>
+    )
 
-    const noteForm = () => {
-      <div>
-        <h2>Luo uusi muistiinpano</h2>
-
-        <form onSubmit={this.addNote}>
-          <input
-            value={this.state.newNote}
-            name="newNte"
-            onChange={this.handleChange}
-          />
-          <button type="submit">tallenna</button>
-        </form>
-
-      </div>
-    }
     return (
       <div>
         <h1>Muistiinpanot</h1>
