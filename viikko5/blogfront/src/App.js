@@ -110,7 +110,7 @@ class App extends React.Component {
         password: '',
         user
       })
-
+      
     } catch (exception) {
       this.notify(`Wrong username or password`)
       console.log(exception)
