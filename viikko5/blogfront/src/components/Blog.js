@@ -75,9 +75,9 @@ class Blog extends React.Component {
 
 
     return (
-      <div style={blogStyle}>
-        <div onClick={this.toggleVisibility}>{this.props.blog.title} {this.props.blog.author}</div>
-        <div style={showWhenVisible}>
+      <div style={blogStyle} className="everything">
+        <div className="authorAndTitle" onClick={this.toggleVisibility}>{this.props.blog.title} {this.props.blog.author}</div>
+        <div className="togglableContent" style={showWhenVisible}>
           <a href={this.props.blog.url}>{this.props.blog.url}</a>
           <p>{this.props.blog.likes} likes <button onClick={this.addLike}>like</button></p>
           <p>added by {this.props.blog.user.name}</p>
@@ -87,11 +87,4 @@ class Blog extends React.Component {
     )
   }
 }
-
-BlogForm.propTypes = {
-  title: PropTypes.string.isRequired,
-  author: PropTypes.string.isRequired,
-  url: PropTypes.string.isRequired
-}
-
 export default Blog
