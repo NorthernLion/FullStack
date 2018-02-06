@@ -22,16 +22,24 @@ class Blog extends React.Component {
         user: this.props.blog.user,
         likes: this.props.blog.likes + 1
       })
-
-      console.log(changedBlog)
+      this.forceUpdate()
     } catch (exception) {
-      console.log('errir')
       console.log(exception)
     }
     setTimeout(() => {
       this.setState({ error: null })
     }, 3000)
 
+  }
+
+  deleteBlog = async (event) => {
+    try {
+      event.preventDefault()
+      const deleteBlog = await blogService.remove(this.props.blog._id)
+      this.forceUpdate()
+    } catch (exception) {
+      console.log(exception + 'delete blog error')
+    }
   }
 
   render() {
@@ -45,14 +53,33 @@ class Blog extends React.Component {
       borderWidth: 1,
       marginBottom: 5
     }
+    const DeleteButton = () => {
+      console.log(this.props.user.username)
+      console.log(this.props.blog.user.username)
+      if (this.props.user.username === this.props.blog.user.username || !this.props.blog.user.username) {
+        return (
+          <div>
+            <button onClick={this.deleteBlog}>delete</button>
+          </div>
+        )
+      }
+      return (
+        <div>
+          You can only delete your own blogs
+          </div>
+      )
+    }
+
+
 
     return (
       <div style={blogStyle}>
         <div onClick={this.toggleVisibility}>{this.props.blog.title} {this.props.blog.author}</div>
         <div style={showWhenVisible}>
-          <a href={this.props.blog.url}>this.props.{this.props.blog.url}</a>
+          <a href={this.props.blog.url}>{this.props.blog.url}</a>
           <p>{this.props.blog.likes} likes <button onClick={this.addLike}>like</button></p>
           <p>added by {this.props.blog.user.name}</p>
+          <DeleteButton />
         </div>
       </div>
 

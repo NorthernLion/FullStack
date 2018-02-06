@@ -77,13 +77,6 @@ class App extends React.Component {
     }
   }
 
-
-
-
-
-
-
-
   handleChange = (event) => {
     this.setState({ [event.target.name]: event.target.value })
   }
@@ -138,7 +131,7 @@ class App extends React.Component {
       <div>
         <h2>blogs</h2>
         {this.state.blogs.map(blog =>
-          <Blog key={blog._id} blog={blog} />
+          <Blog key={blog._id} blog={blog} user={this.state.user} />
         )}
       </div>
     )
