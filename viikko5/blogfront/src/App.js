@@ -24,11 +24,14 @@ class App extends React.Component {
     }
   }
 
+  compareLikes = (th, nd) => {
+    return nd.likes - th.likes
+  }
   componentDidMount() {
     blogService
       .getAll()
       .then(blogs =>
-        this.setState({ blogs })
+        this.setState({ blogs: blogs.sort(this.compareLikes) })
       )
     const loggedUserJSON = window.localStorage.getItem('loggedUser')
     if (loggedUserJSON) {
@@ -73,6 +76,8 @@ class App extends React.Component {
       }, 3000)
     }
   }
+
+
 
 
 

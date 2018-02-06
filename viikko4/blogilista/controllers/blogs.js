@@ -20,10 +20,12 @@ blogRouter.post('/', async (request, response) => {
 
     if (!token || !decodedToken.id) {
       return response.status(401).json({ error: 'token missing or invalid' })
+      console.log('token missing or invalid')
     }
 
     if (title === undefined || url === undefined) {
       return response.status(400).json({ error: 'url or title missing' })
+      console.log('url or title missing')
     }
 
     const user = await User.findById(decodedToken.id)
@@ -38,6 +40,7 @@ blogRouter.post('/', async (request, response) => {
     response.status(201).json(result)
   } catch (exception) {
     if (exception.name === 'JsonWebTokenError') {
+      console.log('JsonWebTokenError')
       response.status(401).json({ error: exception.message })
     } else {
       console.log(exception)
