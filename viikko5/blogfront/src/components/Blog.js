@@ -1,5 +1,7 @@
 import React from 'react'
 import blogService from '../services/blogs'
+import PropTypes from 'prop-types'
+
 class Blog extends React.Component {
   constructor(props) {
     super(props)
@@ -82,10 +84,14 @@ class Blog extends React.Component {
           <DeleteButton />
         </div>
       </div>
-
     )
   }
-
-
 }
+
+BlogForm.propTypes = {
+  title: PropTypes.string.isRequired,
+  author: PropTypes.string.isRequired,
+  url: PropTypes.string.isRequired
+}
+
 export default Blog
