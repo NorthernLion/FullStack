@@ -1,0 +1,10 @@
+POST http://localhost:3001/api/blogs
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Imphc3BlcmxpIiwiaWQiOiI1YTcxZWM0Zjk1ZGViNjE5YjQyYmFlOWQiLCJpYXQiOjE1MTc1ODExMTl9.6BHvyYpGFtlyo_ws__Go2PhGnoyemAF2kH1S0flPj48
+
+{
+  "title": "how to eat your tyhtyhface",
+  "author": "zoibetyhyhrg",
+  "url": "googltyhtyhthe.fi",
+  "userId": "5a71ef66dc3e8f204bda2599"
+}

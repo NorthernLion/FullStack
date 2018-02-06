@@ -1,0 +1,8 @@
+PUT http://localhost:3001/api/blogs/5a71a117636cb534f924fea3
+Content-Type: application/json
+
+{
+  "author": "zoibafeerg",
+  "url": "google.afefi",
+  "likes": 2002
+}
