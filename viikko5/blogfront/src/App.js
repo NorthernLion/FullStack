@@ -19,7 +19,8 @@ class App extends React.Component {
       author: '',
       title: '',
       url: '',
-      notification: null
+      notification: null,
+      selectedBlog: null
     }
   }
 
@@ -52,9 +53,9 @@ class App extends React.Component {
         author: this.state.author,
         url: this.state.url
       })
-      
+
       this.notify(`A new blog ${this.state.title} by ${this.state.author} added`)
-      
+
       this.setState({
         title: '',
         author: '',
@@ -173,4 +174,4 @@ class App extends React.Component {
   }
 }
 
-  export default App
+export default App

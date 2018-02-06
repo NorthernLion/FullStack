@@ -8,6 +8,11 @@ const getAll = () => {
   return request.then(response => response.data)
 }
 
+const getOne = async (id) => {
+  const response = await axios.get(`${baseUrl}/${id}`)
+  return response.data
+}
+
 const setToken = (newToken) => {
   token = `bearer ${newToken}`
 }
@@ -21,4 +26,4 @@ const create = async (newObject) => {
   return response.data
 }
 
-export default { getAll, setToken, create }
+export default { getAll, setToken, create, getOne }
