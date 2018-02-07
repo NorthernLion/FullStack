@@ -1,5 +1,6 @@
 import React from 'react'
 import { addVote } from '../reducers/anecdoteReducer'
+import { notificationRemove, notificationChange } from '../reducers/notificationReducer'
 class AnecdoteList extends React.Component {
   render() {
     const anecdotes = this.props.store.getState().anecdotes
@@ -13,8 +14,11 @@ class AnecdoteList extends React.Component {
             </div>
             <div>
               has {anecdote.votes}
-              <button onClick={() =>
+              <button onClick={() => {
                 this.props.store.dispatch(addVote(anecdote.id))
+                this.props.store.dispatch(notificationChange(`you voted '${anecdote.content}'`))
+                setTimeout(() => { this.props.store.dispatch(notificationRemove()) }, 5000)
+              }
               }>
                 vote
               </button>
