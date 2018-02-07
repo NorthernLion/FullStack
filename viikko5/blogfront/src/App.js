@@ -110,7 +110,7 @@ class App extends React.Component {
         password: '',
         user
       })
-      
+
     } catch (exception) {
       this.notify(`Wrong username or password`)
       console.log(exception)
@@ -125,15 +125,6 @@ class App extends React.Component {
         password={this.state.password}
         handleChange={this.handleChange}
       />
-    )
-
-    const blogList = () => (
-      <div>
-        <h2>blogs</h2>
-        {this.state.blogs.map(blog =>
-          <Blog key={blog._id} blog={blog} user={this.state.user} />
-        )}
-      </div>
     )
 
     const logoutForm = () => (
@@ -163,7 +154,10 @@ class App extends React.Component {
             <p>{this.state.user.name} logged in</p>
             {logoutForm()}
             {blogForm()}
-            {blogList()}
+            <h2>blogs</h2>
+            {this.state.blogs.map(blog =>
+              <Blog key={blog._id} blog={blog} user={this.state.user} />
+            )}
           </div>
 
         }

@@ -1,6 +1,7 @@
 import React from 'react'
-import { shallow } from 'enzyme'
+import { shallow, mount } from 'enzyme'
 import Note from './Note'
+import Togglable from './Togglable'
 
 describe.only('<Note />', () => {
   const note = {
