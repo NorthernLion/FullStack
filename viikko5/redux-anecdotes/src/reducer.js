@@ -24,11 +24,13 @@ const reducer = (state = initialState, action) => {
   console.log('action', action)
   switch (action.type) {
     case 'ADD_VOTE':
-    console.log('lolo add votessa')
+      console.log('lolo add votessa')
       const id = action.data.id
       const anecdoteToChange = state.find(n => n.id === id)
       const changedAnecdote = {...anecdoteToChange, votes: anecdoteToChange.votes + 1}
       return state.map(anecdote => anecdote.id !== id ? anecdote : changedAnecdote)
+    case 'NEW_ANECDOTE':
+      return state.concat(action.data)
     default:
       return state
       console.log('case hukassa')

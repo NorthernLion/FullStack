@@ -6,6 +6,14 @@ class App extends React.Component {
     this.props.store.dispatch(actionFor.addVote(id))
   }
 
+  addAnecdote = (event) => {
+    event.preventDefault()
+    this.props.store.dispatch(
+      actionFor.anecdoteCreation(event.target.anecdote.value)
+    )
+    event.target.anecdote.value = ''
+  }
+
   compare = (th, nd) => {
     return nd.votes - th.votes
   }
@@ -28,9 +36,9 @@ class App extends React.Component {
           </div>
         )}
         <h2>create new</h2>
-        <form>
-          <div><input /></div>
-          <button>create</button> 
+        <form onSubmit={this.addAnecdote}>
+          <input name="anecdote" />
+          <button type="submit">create</button> 
         </form>
       </div>
     )
