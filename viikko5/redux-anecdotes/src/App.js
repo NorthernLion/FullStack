@@ -6,8 +6,13 @@ class App extends React.Component {
     this.props.store.dispatch(actionFor.addVote(id))
   }
 
+  compare = (th, nd) => {
+    return nd.votes - th.votes
+  }
+
   render() {
     const anecdotes = this.props.store.getState()
+    anecdotes.sort(this.compare)
     return (
       <div>
         <h2>Anecdotes</h2>
