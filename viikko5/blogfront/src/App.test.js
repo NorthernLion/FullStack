@@ -2,38 +2,34 @@ import React from 'react'
 import { mount } from 'enzyme'
 import App from './App'
 import Blog from './components/Blog'
-jest.mock('./services/blogs')
-import blogService from './services/blogs'
 
-const user = {
-  username: "tester",
-  token: "112",
-  name: "pelle peloton",
-  adult: true
-}
-
-describe (<App />, () => {
+describe('<App />', () => {
   let app
-  beforeEach(() => {
-    app = mount(<App />)
-  })
 
-  it('no blogs are rendered when user is not logged in', () => {
-    app.update()
-    const blogComponent = app.find(Blog)
-    console.log(blogComponent.debug())
-    expect(blogComponent.length).toEqual(0)
-  })
-  describe('when user is logged', () => {
+  describe('when user is not logged', () => {
     beforeEach(() => {
       app = mount(<App />)
-      
     })
-    it('all blogs are rendered', () => {    
+
+    it('when user is not logged, only the login form us shown', () => {
+      const form = app.find('form')
+      expect(form.length).toBe(1)
+      const blogs = app.find(Blog)
+      expect(blogs.length).toBe(0)
+    })
+  })
+
+  describe('when user is logged', () => {
+    beforeEach(() => {
+      localStorage.setItem('loggedBlogAppUser', JSON.stringify({ username: 'tester', token: '123' }))
+      app = mount(<App />)
+    })
+
+    it('all notes are rendered', () => {
       app.update()
-      const blogComponent = app.find(Blog)
-      console.log(blogComponent.debug())
-      expect(blogComponent.length).toEqual(3)
+
+      const blogs = app.find(Blog)
+      expect(blogs.length).toBe(2)
     })
   })
 })
