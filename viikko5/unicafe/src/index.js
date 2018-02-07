@@ -5,8 +5,10 @@ import counterReducer from './reducer'
 
 const store = createStore(counterReducer)
 
-const Statistiikka = () => {
-  const palautteita = 0
+const Statistiikka = ({ onclick }) => {
+  const palautteita = store.getState().good + store.getState().ok + store.getState().bad
+  const average = (store.getState().good - store.getState().bad) / palautteita
+  const positive = (store.getState().good / palautteita) * 100 + ' %'
 
   if (palautteita === 0) {
     return (
@@ -24,28 +26,28 @@ const Statistiikka = () => {
         <tbody>
           <tr>
             <td>hyvä</td>
-            <td></td>
+            <td>{store.getState().good}</td>
           </tr>
           <tr>
             <td>neutraali</td>
-            <td></td>
+            <td>{store.getState().ok}</td>
           </tr>
           <tr>
             <td>huono</td>
-            <td></td>
+            <td>{store.getState().bad}</td>
           </tr>
           <tr>
             <td>keskiarvo</td>
-            <td></td>
+            <td>{average}</td>
           </tr>
           <tr>
             <td>positiivisia</td>
-            <td></td>
+            <td>{positive}</td>
           </tr>
         </tbody>
       </table>
 
-      <button>nollaa tilasto</button>
+      <button onClick={onclick}>nollaa tilasto</button>
     </div >
   )
 }
@@ -62,7 +64,7 @@ class App extends React.Component {
         <button onClick={this.klik('GOOD')}>hyvä</button>
         <button onClick={this.klik('OK')}>neutraali</button>
         <button onClick={this.klik('BAD')}>huono</button>
-        <Statistiikka />
+        <Statistiikka onclick={this.klik('ZERO')}/>
       </div>
     )
   }
