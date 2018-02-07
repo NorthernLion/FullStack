@@ -7,7 +7,7 @@ class AnecdoteList extends React.Component {
     return (
       <div>
         <h2>Anecdotes</h2>
-        {anecdotes.sort((a, b) => b.votes - a.votes).map(anecdote =>
+        {filterAnecdotes(this.props.store.getState().anecdotes, this.props.store.getState().filter).sort((a, b) => b.votes - a.votes).map(anecdote =>
           <div key={anecdote.id}>
             <div>
               {anecdote.content}
@@ -27,6 +27,14 @@ class AnecdoteList extends React.Component {
         )}
       </div>
     )
+  }
+}
+
+const filterAnecdotes = (anecdotes, filter) => {
+  if (filter.length > 0) {
+    return anecdotes.filter(anecdote => anecdote.content.toLowerCase().includes(filter.toLowerCase()))
+  } else {
+    return anecdotes
   }
 }
 
