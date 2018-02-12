@@ -2,17 +2,14 @@ import React from 'react'
 import Notification from './components/Notification'
 import AnecdoteForm from './components/AnecdoteForm'
 import AnecdoteList from './components/AnecdoteList'
-import Filter from './components/Filter'
 
 class App extends React.Component {
 
   render() {
     return (
       <div>
-        <Filter />
         <Notification />
         <AnecdoteForm />
-        <h1>Programming anecdotes</h1>
         <AnecdoteList />
       </div>
     )

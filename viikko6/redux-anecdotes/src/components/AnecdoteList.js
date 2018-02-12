@@ -2,13 +2,15 @@ import React from 'react'
 import { addVote } from '../reducers/anecdoteReducer'
 import { notificationRemove, notificationChange } from '../reducers/notificationReducer'
 import { connect } from 'react-redux'
+import Filter from './Filter'
 class AnecdoteList extends React.Component {
   render() {
-    const { anecdotes, filter } = this.props
+    const{ anecdotes, filter } = this.props
     return (
       <div>
         <h2>Anecdotes</h2>
-        {filterAnecdotes(anecdotes, filter).sort((th, nd) => nd.votes - th.votes).map(anecdote =>
+        <Filter />
+        {this.props.visibleAnecdotes.map(anecdote =>
           <div key={anecdote.id}>
             <div>
               {anecdote.content}
@@ -41,8 +43,7 @@ const filterAnecdotes = (anecdotes, filter) => {
 
 const mapStateToProps = (state) => {
   return {
-    anecdotes: state.anecdotes,
-    filter: state.filter
+    visibleAnecdotes: filterAnecdotes(state.anecdotes, state.filter).sort((th, nd) => nd.votes - th.votes)
   }
 }
 
