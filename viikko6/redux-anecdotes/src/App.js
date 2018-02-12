@@ -7,17 +7,20 @@ import Filter from './components/Filter'
 class App extends React.Component {
 
   render() {
-    const anecdotes = this.props.store.getState()
     return (
       <div>
+        <Notification />
         <h1>Programming anecdotes</h1>
-        <Filter store={this.props.store} />
-        <Notification store={this.props.store} />
-        <AnecdoteList store={this.props.store} />
-        <AnecdoteForm store={this.props.store} />
+        <AnecdoteList />
       </div>
     )
   }
 }
 
 export default App
+
+/*
+        <AnecdoteForm store={this.props.store} />
+        <Filter store={this.props.store} />
+        
+*/
