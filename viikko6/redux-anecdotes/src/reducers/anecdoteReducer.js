@@ -50,10 +50,10 @@ export const addVote = (id) => {
   }
 }
 
-export const anecdoteCreation = (content) => {
+export const anecdoteCreation = (data) => {
   return {
     type: 'CREATE',
-    content
+    data
   }
 }
 
