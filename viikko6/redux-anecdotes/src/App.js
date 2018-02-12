@@ -9,7 +9,9 @@ class App extends React.Component {
   render() {
     return (
       <div>
+        <Filter />
         <Notification />
+        <AnecdoteForm />
         <h1>Programming anecdotes</h1>
         <AnecdoteList />
       </div>
@@ -18,9 +20,3 @@ class App extends React.Component {
 }
 
 export default App
-
-/*
-        <AnecdoteForm store={this.props.store} />
-        <Filter store={this.props.store} />
-        
-*/
