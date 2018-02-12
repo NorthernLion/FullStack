@@ -20,10 +20,9 @@ class Filter extends React.Component {
     )
   }
 }
-
-
 const mapStateToProps = (state) => {
   return {
+    filter: state.filter
   }
 }
 
