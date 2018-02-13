@@ -1,6 +1,6 @@
 import React from 'react'
 import { addVote } from '../reducers/anecdoteReducer'
-import { notificationRemove, notificationChange } from '../reducers/notificationReducer'
+import { notify } from '../reducers/notificationReducer'
 import { connect } from 'react-redux'
 import Filter from './Filter'
 class AnecdoteList extends React.Component {
@@ -18,8 +18,7 @@ class AnecdoteList extends React.Component {
               has {anecdote.votes}
               <button onClick={() => {
                 this.props.addVote(anecdote.id)
-                this.props.notificationChange(`you voted '${anecdote.content}'`)
-                setTimeout(() => { this.props.notificationRemove() }, 5000)
+                this.props.notify(`you voted '${anecdote.content}'`, 10)
               }
               }>
                 vote
@@ -48,8 +47,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
   addVote,
-  notificationRemove,
-  notificationChange
+  notify
 }
 
 const ConnectedAnnecdoteList = connect(
