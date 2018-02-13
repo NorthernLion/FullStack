@@ -1,12 +1,15 @@
 import React from 'react'
-import { BrowserRouter as Router, Route, Link, Redirect } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Link, NavLink, Redirect } from 'react-router-dom'
 import Anecdote from './Anecdote';
 
+const menuStyle = {
+  backgroundColor: 'blue' 
+}
 const Menu = () => (
-  <div>
-    <a href='#'>anecdotes</a>&nbsp;
-    <a href='#'>create new</a>&nbsp;
-    <a href='#'>about</a>&nbsp;
+  <div style={menuStyle}>
+    <NavLink exact to="/" activeStyle={{fontWeight: 'bold', color: 'red'}}>anecdotes</NavLink> &nbsp;
+    <NavLink exact to="/create" activeStyle={{ fontWeight: 'bold', color: 'red' }}>create new</NavLink> &nbsp;
+    <NavLink exact to="/about" activeStyle={{ fontWeight: 'bold', color: 'red' }}>about</NavLink> &nbsp;
   </div>
 )
 
@@ -160,10 +163,8 @@ class App extends React.Component {
         <Router>
           <div>
             <div>
-              <Link to="/">anecdotes</Link> &nbsp;
-              <Link to="/create">create new</Link> &nbsp;
-              <Link to="/about">about</Link> &nbsp;
-              </div>
+              <Menu />
+            </div>
             <Route exact path="/" render={() => <AnecdoteList anecdotes={this.state.anecdotes} />} />
             <Route exact path="/create" render={() =>
               this.state.notification
