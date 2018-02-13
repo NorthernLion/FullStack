@@ -1,7 +1,7 @@
 import React from 'react'
 import { BrowserRouter as Router, Route, Link, NavLink, Redirect } from 'react-router-dom'
 import Anecdote from './Anecdote'
-import {  ListGroup, ListGroupItem } from 'react-bootstrap'
+import { Col, Grid, ListGroup, ListGroupItem, Row } from 'react-bootstrap'
 
 const menuStyle = {
   backgroundColor: 'blue' 
@@ -26,17 +26,26 @@ const AnecdoteList = ({ anecdotes }) => (
 )
 
 const About = () => (
-  <div>
-    <h2>About anecdote app</h2>
-    <p>According to Wikipedia:</p>
+  <Grid>
+    <Row className="show-grid">
+      <Col sm={16} md={5}>    
+        <div>
+          <h2>About anecdote app</h2>
+          <p>According to Wikipedia:</p>
 
-    <em>An anecdote is a brief, revealing account of an individual person or an incident.
-      Occasionally humorous, anecdotes differ from jokes because their primary purpose is not simply to provoke laughter but to reveal a truth more general than the brief tale itself,
-      such as to characterize a person by delineating a specific quirk or trait, to communicate an abstract idea about a person, place, or thing through the concrete details of a short narrative.
-      An anecdote is "a story with a point."</em>
+          <em>An anecdote is a brief, revealing account of an individual person or an incident.
+            Occasionally humorous, anecdotes differ from jokes because their primary purpose is not simply to provoke laughter but to reveal a truth more general than the brief tale itself,
+            such as to characterize a person by delineating a specific quirk or trait, to communicate an abstract idea about a person, place, or thing through the concrete details of a short narrative.
+            An anecdote is "a story with a point."</em>
 
-    <p>Software engineering is full of excellent anecdotes, at this app you can find the best and add more.</p>
-  </div>
+          <p>Software engineering is full of excellent anecdotes, at this app you can find the best and add more.</p>
+        </div>
+      </Col>
+      <Col sm={4} md={2}>
+        <img src="https://cdn.arstechnica.net/wp-content/uploads/2013/02/linus-eff-you-640x363.png"/>
+      </Col>
+    </Row>
+  </Grid>
 )
 
 const Footer = () => (
