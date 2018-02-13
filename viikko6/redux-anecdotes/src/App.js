@@ -4,6 +4,7 @@ import AnecdoteForm from './components/AnecdoteForm'
 import AnecdoteList from './components/AnecdoteList'
 import { anecdoteInitialization } from './reducers/anecdoteReducer'
 import { connect } from 'react-redux'
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 
 class App extends React.Component {
   componentDidMount = () => {
@@ -14,8 +15,19 @@ class App extends React.Component {
     return (
       <div>
         <Notification />
-        <AnecdoteForm />
-        <AnecdoteList />
+        <Router>
+          <div>
+            <div>
+              <Link to="/">anecdotes</Link> &nbsp;
+              <Link to="/create">create new</Link> &nbsp;
+              <Link to="/about">about</Link> &nbsp;
+            </div>
+            <Route exact path="/" render={() => <AnecdoteList />} />
+            <Route exact path="/create" render={() => <AnecdoteForm />} />
+            <Route exact path="/about" render={() => <AnecdoteList />} />
+          </div>
+        </Router>
+        <p>source code for this application can be found on Github</p>
       </div>
     )
   }
