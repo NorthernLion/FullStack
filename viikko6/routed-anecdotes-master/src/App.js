@@ -142,11 +142,21 @@ class App extends React.Component {
     this.setState({ anecdotes })
   }
 
+
+
   render() {
+
+    const notificationStyle = {
+      color: 'green',
+      borderStyle: 'solid',
+      borderColor: 'green',
+      padding: '5px 5px 5px 5px'
+    }
+
     return (
       <div>
         <h1>Software anecdotes</h1>
-        <p>{this.state.notification}</p>
+        <div style={notificationStyle}>{this.state.notification}</div>
         <Router>
           <div>
             <div>
