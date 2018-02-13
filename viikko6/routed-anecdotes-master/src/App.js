@@ -1,5 +1,6 @@
 import React from 'react'
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
+import Anecdote from './Anecdote';
 
 const Menu = () => (
   <div>
@@ -13,7 +14,9 @@ const AnecdoteList = ({ anecdotes }) => (
   <div>
     <h2>Anecdotes</h2>
     <ul>
-      {anecdotes.map(anecdote => <li key={anecdote.id} >{anecdote.content}</li>)}
+      {anecdotes.map(anecdote => <li key={anecdote.id} >
+        <Link to={`/anecdotes/${anecdote.id}`}>{anecdote.content}</Link>
+        </li>)}
     </ul>
   </div>
 )
@@ -150,8 +153,12 @@ class App extends React.Component {
             <Route exact path="/" render={() => <AnecdoteList anecdotes={this.state.anecdotes} />} />
             <Route exact path="/create" render={() => <CreateNew addnew={this.addNew}/>} />
             <Route exact path="/about" render={() => <About />} />
+            <Route exact path="/anecdotes/:id" render={({match}) => 
+              <Anecdote anecdote={this.anecdoteById(match.params.id)} />}
+            />
           </div>
         </Router>
+        <Footer />
       </div>
     )
   }
